@@ -7,8 +7,11 @@ import com.green.jpaexam.product.model.ProductUpdDto;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OrderBy;
 import org.springdoc.core.converters.models.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,8 +30,8 @@ public class ProductService {
         //dao한테 보낼 때는 entity정도는 보내주도록 하자
     }
 
-    public List<ProductRes> getProductAll() {
-        return dao.getProductAll();
+    public Page<ProductRes> getProductAll(Pageable page) {
+        return dao.getProductAll(page);
 //        List<ProductEntity> list = dao.getProductAll();
 //        List<ProductRes> result = list.stream().map(item ->
 //                ProductRes.builder()
@@ -53,6 +56,8 @@ public class ProductService {
                 .price(dto.getPrice())
                 .stock(dto.getStock())
                 .build();
+
+
         return dao.updProduct(entity);
     }
 

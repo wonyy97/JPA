@@ -3,11 +3,11 @@ package com.green.jpaexam.product;
 import com.green.jpaexam.product.model.ProductEntity;
 import com.green.jpaexam.product.model.ProductRes;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +32,10 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<ProductRes> getProductAll() {
-
-        List<ProductEntity> list = rep.findAll(Sort.by(Sort.Direction.DESC, "number"));
-        List<ProductRes> result = list.stream().map(item ->
+    public Page<ProductRes> getProductAll(Pageable page) {
+        Page<ProductEntity> totalList = rep.findAll(page);
+        long totalSize = totalList.getTotalElements();
+        List<ProductRes> contents = totalList.getContent().stream().map(item ->
                 ProductRes.builder()
                         .number(item.getNumber())
                         .name(item.getName())
@@ -43,7 +43,9 @@ public class ProductDaoImpl implements ProductDao {
                         .stock(item.getStock())
                         .build()
         ).toList();
-        return result;
+
+        return new PageImpl<>(contents, page, totalSize);
+
 
     }
 
@@ -75,7 +77,7 @@ public class ProductDaoImpl implements ProductDao {
         entity.setName(p.getName());
         entity.setPrice(p.getPrice());
         entity.setStock(p.getStock());
-        //entity.setUpdatedAt(LocalDateTime.now());
+
 
         ProductEntity result = rep.save(entity);
 
