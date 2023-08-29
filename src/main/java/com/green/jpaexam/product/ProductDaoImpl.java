@@ -1,6 +1,6 @@
 package com.green.jpaexam.product;
 
-import com.green.jpaexam.product.model.ProductEntity;
+import com.green.jpaexam.entity.ProductEntity;
 import com.green.jpaexam.product.model.ProductRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

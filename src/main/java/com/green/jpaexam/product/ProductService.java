@@ -1,18 +1,13 @@
 package com.green.jpaexam.product;
 
 import com.green.jpaexam.product.model.ProductDto;
-import com.green.jpaexam.product.model.ProductEntity;
+import com.green.jpaexam.entity.ProductEntity;
 import com.green.jpaexam.product.model.ProductRes;
 import com.green.jpaexam.product.model.ProductUpdDto;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.OrderBy;
-import org.springdoc.core.converters.models.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
