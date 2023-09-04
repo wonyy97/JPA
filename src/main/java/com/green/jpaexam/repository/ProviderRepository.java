@@ -1,4 +1,4 @@
-package com.green.jpaexam.provider;
+package com.green.jpaexam.repository;
 
 import com.green.jpaexam.entity.ProviderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

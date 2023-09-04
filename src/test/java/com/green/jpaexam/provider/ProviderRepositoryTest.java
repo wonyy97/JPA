@@ -2,15 +2,13 @@ package com.green.jpaexam.provider;
 
 import com.green.jpaexam.entity.ProductEntity;
 import com.green.jpaexam.entity.ProviderEntity;
-import lombok.RequiredArgsConstructor;
+import com.green.jpaexam.repository.ProviderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 //@SpringBootTest
 @Slf4j

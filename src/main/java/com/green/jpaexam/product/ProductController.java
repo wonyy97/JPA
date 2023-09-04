@@ -31,6 +31,13 @@ public class ProductController {
                 return ResponseEntity.ok(SERVICE.getProductAll(page)); //ok가 200
     }
 
+    @GetMapping("/jpql")
+    public ResponseEntity<List<ProductRes>> getProductAllJpql(@PageableDefault(sort = "number", direction = Sort.Direction.DESC, size = 20)Pageable page){
+        return ResponseEntity.ok(SERVICE.getProductAllJpql(page)); //ok가 200
+    }
+
+
+
     @GetMapping("/{number}")
     public ResponseEntity<ProductRes> getProduct(@PathVariable Long number) {
         return ResponseEntity.ok(SERVICE.getProduct(number));

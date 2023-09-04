@@ -9,4 +9,7 @@ public class ProductDto {
     private final String name;
     private final int price;
     private final int stock;
+    private long providerId;
+    private long categoryId;
+    private String description;
 }
