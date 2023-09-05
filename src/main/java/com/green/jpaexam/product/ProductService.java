@@ -1,5 +1,6 @@
 package com.green.jpaexam.product;
 
+import com.green.jpaexam.product.model.ProductResQdsl;
 import com.green.jpaexam.repository.CategoryRepository;
 import com.green.jpaexam.repository.ProductDetailRepository;
 import com.green.jpaexam.entity.CategoryEntity;
@@ -31,6 +32,7 @@ public class ProductService {
     private final ProductDetailRepository productDetailRep;
     private final ProviderRepository providerRep;
     private final CategoryRepository categoryRep;
+    private final ProductQdsl productQdsl;
 
     public ProductRes saveProduct2(ProductDto dto) {
         ProviderEntity providerEntity = providerRep.findById(dto.getProviderId()).get();
@@ -111,6 +113,11 @@ public class ProductService {
 //        for (ProductRes e : list) {
 //            log.info("item : {}", list);
 //        }
+        return list;
+    }
+
+    public List<ProductResQdsl> getProductAllQdsl(Pageable pageable) {
+        List<ProductResQdsl> list = productQdsl.selProductAll(pageable);
         return list;
     }
 

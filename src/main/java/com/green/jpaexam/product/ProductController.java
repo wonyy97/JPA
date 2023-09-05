@@ -2,8 +2,10 @@ package com.green.jpaexam.product;
 
 import com.green.jpaexam.product.model.ProductDto;
 import com.green.jpaexam.product.model.ProductRes;
+import com.green.jpaexam.product.model.ProductResQdsl;
 import com.green.jpaexam.product.model.ProductUpdDto;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,16 +29,20 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductRes>> getProductAll(@PageableDefault(sort = "number", direction = Sort.Direction.DESC, size = 20)Pageable page){
-                return ResponseEntity.ok(SERVICE.getProductAll(page)); //ok가 200
+    public ResponseEntity<Page<ProductRes>> getProductAll(@PageableDefault(sort = "number", direction = Sort.Direction.DESC, size = 20) Pageable page) {
+        return ResponseEntity.ok(SERVICE.getProductAll(page)); //ok가 200
     }
 
     @GetMapping("/jpql")
-    public ResponseEntity<List<ProductRes>> getProductAllJpql(@PageableDefault(sort = "number", direction = Sort.Direction.DESC, size = 20)Pageable page){
+    public ResponseEntity<List<ProductRes>> getProductAllJpql(@PageableDefault(sort = "number", direction = Sort.Direction.DESC, size = 20) Pageable page) {
         return ResponseEntity.ok(SERVICE.getProductAllJpql(page)); //ok가 200
     }
 
-
+    @GetMapping("/qdsl")
+    public ResponseEntity<List<ProductResQdsl>> getProductAllQdsl(
+            @ParameterObject @PageableDefault(page = 0, sort = "number", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
+        return ResponseEntity.ok(SERVICE.getProductAllQdsl(pageable));
+    }
 
     @GetMapping("/{number}")
     public ResponseEntity<ProductRes> getProduct(@PathVariable Long number) {
