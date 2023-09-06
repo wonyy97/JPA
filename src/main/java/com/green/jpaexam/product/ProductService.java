@@ -116,8 +116,8 @@ public class ProductService {
         return list;
     }
 
-    public List<ProductResQdsl> getProductAllQdsl(Pageable pageable) {
-        List<ProductResQdsl> list = productQdsl.selProductAll(pageable);
+    public List<ProductResQdsl> getProductAllQdsl(Pageable pageable, String search) {
+        List<ProductResQdsl> list = productQdsl.selProductAll(pageable, search);
         return list;
     }
 

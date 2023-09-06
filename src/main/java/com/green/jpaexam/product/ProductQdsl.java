@@ -6,9 +6,9 @@ import com.green.jpaexam.entity.QProductEntity;
 import com.green.jpaexam.entity.QProviderEntity;
 import com.green.jpaexam.product.model.ProductRes;
 import com.green.jpaexam.product.model.ProductResQdsl;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.*;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +26,7 @@ import static com.green.jpaexam.entity.QCategoryEntity.categoryEntity;
 import static com.green.jpaexam.entity.QProductDetailEntity.productDetailEntity;
 import static com.green.jpaexam.entity.QProductEntity.productEntity;
 import static com.green.jpaexam.entity.QProviderEntity.providerEntity;
+import static com.querydsl.jpa.JPAExpressions.select;
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Slf4j
@@ -34,20 +35,32 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 public class ProductQdsl {
     private final JPAQueryFactory jpaQueryFactory;
     private final QProductEntity p = productEntity;
+    private final QProductEntity subP = productEntity;
     private final QCategoryEntity c = categoryEntity;
     private final QProviderEntity pv = providerEntity;
 
-    public List<ProductResQdsl> selProductAll(Pageable pageable) {
 
-        JPQLQuery<ProductResQdsl> query = jpaQueryFactory.select(
-                        Projections.bean(ProductResQdsl.class,
-                                p.number, p.name, p.price, p.stock, p.createdAt, productDetailEntity.description,
-                                pv.name.as("providerNm"), c.name.as("categoryNm")))
+    public List<ProductResQdsl> selProductAll(Pageable pageable, String search) {
+
+        BooleanBuilder whereBuilder = new BooleanBuilder();
+        if (search != null){
+            whereBuilder.and(p.name.contains(search))
+                        .or(productDetailEntity.description.contains(search));
+        }
+
+        whereBuilder.and(p.number.goe(JPAExpressions.select(subP.number.count()).from(subP)));
+
+        JPQLQuery<ProductResQdsl> query = jpaQueryFactory.select(Projections.bean(ProductResQdsl.class,
+                        p.number, p.name, p.price, p.stock, productDetailEntity.description, c.name.as("categoryNm")
+                        , pv.name.as("providerNm"), p.createdAt
+                        , ExpressionUtils.as(JPAExpressions.select(subP.number.count()).from(subP), "totalCnt")
+                ))
                 .from(p)
                 .join(p.productDetailEntity, productDetailEntity)
                 .join(p.categoryEntity, c)
                 .join(p.providerEntity, pv)
-                .orderBy(p.number.desc())
+                .orderBy(getAllOrderSpecifiers(pageable))
+                .where(whereBuilder)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 

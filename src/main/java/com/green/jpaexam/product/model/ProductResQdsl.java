@@ -16,5 +16,5 @@ public class ProductResQdsl {
     private String categoryNm;
     private String description;
     private LocalDateTime createdAt;
-
+    private Long totalCnt;
 }

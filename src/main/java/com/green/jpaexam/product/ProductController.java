@@ -40,8 +40,10 @@ public class ProductController {
 
     @GetMapping("/qdsl")
     public ResponseEntity<List<ProductResQdsl>> getProductAllQdsl(
-            @ParameterObject @PageableDefault(page = 0, sort = "number", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
-        return ResponseEntity.ok(SERVICE.getProductAllQdsl(pageable));
+                                                @ParameterObject @PageableDefault(page = 0, sort = "number", direction = Sort.Direction.DESC, size = 20)
+                                                Pageable pageable
+                                                , @RequestParam(required = false) String search) {
+        return ResponseEntity.ok(SERVICE.getProductAllQdsl(pageable, search));
     }
 
     @GetMapping("/{number}")
