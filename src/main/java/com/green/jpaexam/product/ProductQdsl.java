@@ -26,8 +26,6 @@ import static com.green.jpaexam.entity.QCategoryEntity.categoryEntity;
 import static com.green.jpaexam.entity.QProductDetailEntity.productDetailEntity;
 import static com.green.jpaexam.entity.QProductEntity.productEntity;
 import static com.green.jpaexam.entity.QProviderEntity.providerEntity;
-import static com.querydsl.jpa.JPAExpressions.select;
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Slf4j
 @Component
